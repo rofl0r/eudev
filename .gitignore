@@ -41,6 +41,17 @@ src/mtd_probe/mtd_probe
 src/scsi_id/scsi_id
 src/v4l_id/v4l_id
 
+src/accelerometer/.dirstamp
+src/ata_id/.dirstamp
+src/cdrom_id/.dirstamp
+src/collect/.dirstamp
+src/keymap/.dirstamp
+src/libudev/.dirstamp
+src/mtd_probe/.dirstamp
+src/scsi_id/.dirstamp
+src/udev/.dirstamp
+src/v4l_id/.dirstamp
+
 src/gudev/gudevenumtypes.c
 src/gudev/gudevenumtypes.h
 src/gudev/gudevmarshal.c
