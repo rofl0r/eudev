@@ -33,9 +33,9 @@ define move-to-rootlibdir
 endef
 
 lib_LTLIBRARIES = \
-	libudev/libudev.la
+	libudev.la
 
-libudev_libudev_la_SOURCES =\
+libudev_la_SOURCES =\
 	libudev/libudev.c \
 	libudev/libudev-list.c \
 	libudev/libudev-util.c \
@@ -78,20 +78,20 @@ noinst_HEADERS = \
 include_HEADERS = \
 	libudev/libudev.h
 
-libudev_libudev_la_LDFLAGS = \
+libudev_la_LDFLAGS = \
 	$(AM_LDFLAGS) \
 	-version-info $(LIBUDEV_CURRENT):$(LIBUDEV_REVISION):$(LIBUDEV_AGE) \
 	-Wl,--version-script=$(top_srcdir)/src/libudev/libudev.sym
 
 noinst_LTLIBRARIES = \
-	libudev/libudev-private.la
+	libudev-private.la
 
-libudev_libudev_private_la_SOURCES =\
+libudev_private_la_SOURCES =\
 	libudev/libudev-device-private.c \
 	libudev/libudev-queue-private.c
 
-libudev_libudev_private_la_LIBADD =\
-	libudev/libudev.la
+libudev_private_la_LIBADD =\
+	libudev.la
 
 pkgconfiglib_DATA = \
 	libudev/libudev.pc
@@ -122,7 +122,7 @@ udev_udevd_SOURCES = \
 	udev/udevd.c
 
 udev_udevd_LDADD = \
-	udev/libudev-core.la
+	libudev-core.la
 
 udev_udevadm_SOURCES = \
 	udev/udevadm.c \
@@ -136,12 +136,12 @@ udev_udevadm_SOURCES = \
 	udev/udevadm-test-builtin.c
 
 udev_udevadm_LDADD = \
-	udev/libudev-core.la
+	libudev-core.la
 
 noinst_LTLIBRARIES += \
-        udev/libudev-core.la
+        libudev-core.la
 
-udev_libudev_core_la_SOURCES = \
+libudev_core_la_SOURCES = \
 	udev/udev-event.c \
 	udev/udev-watch.c \
 	udev/udev-node.c \
@@ -167,31 +167,31 @@ noinst_HEADERS += \
 include_HEADERS += \
 	udev/udev.h
 
-udev_libudev_core_la_CFLAGS = \
+libudev_core_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	$(BLKID_CFLAGS)
 
-udev_libudev_core_la_LIBADD = \
-	libudev/libudev-private.la \
+libudev_core_la_LIBADD = \
+	libudev-private.la \
 	$(BLKID_LIBS) \
 	$(SELINUX_LIBS)
 
 if HAVE_BLKID
-udev_libudev_core_la_SOURCES += \
+libudev_core_la_SOURCES += \
 	udev/udev-builtin-blkid.c
 endif
 
 if HAVE_MODULES
-udev_libudev_core_la_SOURCES += \
+libudev_core_la_SOURCES += \
 	udev/udev-builtin-kmod.c
 
 if HAVE_LIBKMOD
-udev_libudev_core_la_CFLAGS += $(KMOD_CFLAGS)
-udev_libudev_core_la_LIBADD += $(KMOD_LIBS)
+libudev_core_la_CFLAGS += $(KMOD_CFLAGS)
+libudev_core_la_LIBADD += $(KMOD_LIBS)
 endif
 endif
 
-udev_libudev_core_la_CPPFLAGS = \
+libudev_core_la_CPPFLAGS = \
 	$(AM_CPPFLAGS) \
 	-DFIRMWARE_PATH="$(FIRMWARE_PATH)"
 
@@ -210,10 +210,6 @@ EXTRA_DIST += \
 CLEANFILES += \
 	udev/udev.pc
 
-#
-# accelerometer
-#
-
 udevlibexec_PROGRAMS = \
 	accelerometer/accelerometer
 
@@ -221,8 +217,8 @@ accelerometer_accelerometer_SOURCES = \
 	accelerometer/accelerometer.c
 
 accelerometer_accelerometer_LDADD = \
-	libudev/libudev-private.la \
-	udev/libudev-core.la \
+	libudev-private.la \
+	libudev-core.la \
 	-lm
 
 udevlibexec_PROGRAMS += \
@@ -232,8 +228,8 @@ ata_id_ata_id_SOURCES = \
 	ata_id/ata_id.c
 
 ata_id_ata_id_LDADD = \
-	libudev/libudev-private.la \
-	udev/libudev-core.la
+	libudev-private.la \
+	libudev-core.la
 
 udevlibexec_PROGRAMS += \
 	cdrom_id/cdrom_id
@@ -242,8 +238,8 @@ cdrom_id_cdrom_id_SOURCES = \
 	cdrom_id/cdrom_id.c
 
 cdrom_id_cdrom_id_LDADD = \
-	libudev/libudev-private.la \
-	udev/libudev-core.la
+	libudev-private.la \
+	libudev-core.la
 
 udevlibexec_PROGRAMS += \
 	collect/collect
@@ -252,8 +248,8 @@ collect_collect_SOURCES = \
 	collect/collect.c
 
 collect_collect_LDADD = \
-	libudev/libudev-private.la \
-	udev/libudev-core.la
+	libudev-private.la \
+	libudev-core.la
 
 udevlibexec_PROGRAMS += \
 	scsi_id/scsi_id
@@ -265,8 +261,8 @@ scsi_id_scsi_id_SOURCES =\
 	scsi_id/scsi_id.h
 
 scsi_id_scsi_id_LDADD = \
-	libudev/libudev-private.la \
-	udev/libudev-core.la
+	libudev-private.la \
+	libudev-core.la
 
 EXTRA_DIST += \
 	scsi_id/README
@@ -278,8 +274,8 @@ v4l_id_v4l_id_SOURCES = \
 	v4l_id/v4l_id.c
 
 v4l_id_v4l_id_LDADD = \
-	libudev/libudev-private.la \
-	udev/libudev-core.la
+	libudev-private.la \
+	libudev-core.la
 
 udevlibexec_PROGRAMS += \
 	mtd_probe/mtd_probe
@@ -324,7 +320,7 @@ pkgconfiglib_DATA += \
 	gudev/gudev-1.0.pc
 
 CLEANFILES += \
-	gudev-1.0.pc
+	gudev/gudev-1.0.pc
 
 libgudev_1_0_la_SOURCES = \
 	gudev/gudevenumtypes.c \
@@ -353,7 +349,7 @@ libgudev_1_0_la_CFLAGS = \
 	$(GLIB_CFLAGS)
 
 libgudev_1_0_la_LIBADD = \
-	libudev/libudev.la \
+	libudev.la \
 	$(GLIB_LIBS)
 
 libgudev_1_0_la_LDFLAGS = \
@@ -396,13 +392,13 @@ CLEANFILES += \
 if HAVE_INTROSPECTION
 -include $(INTROSPECTION_MAKEFILE)
 
-gudev/GUdev-1.0.gir: \
-	gudev/libgudev-1.0.la
+GUdev-1.0.gir: \
+	libgudev-1.0.la
 
-gudev_GUdev_1_0_gir_INCLUDES = \
-	gudev/GObject-2.0
+GUdev_1_0_gir_INCLUDES = \
+	GObject-2.0
 
-gudev_GUdev_1_0_gir_CFLAGS = \
+GUdev_1_0_gir_CFLAGS = \
 	$(INCLUDES) \
 	-D_GUDEV_COMPILATION \
 	-D_GUDEV_WORK_AROUND_DEV_T_BUG \
@@ -411,36 +407,36 @@ gudev_GUdev_1_0_gir_CFLAGS = \
 	-I$(top_srcdir)/src/gudev \
 	-I$(top_builddir)/src/gudev
 
-gudev_GUdev_1_0_gir_LIBS = \
-	gudev/libgudev-1.0.la \
-	src/udev/libudev-core.la
+GUdev_1_0_gir_LIBS = \
+	libgudev-1.0.la \
+	libudev-core.la
 
-gudev_GUdev_1_0_gir_SCANNERFLAGS = \
+GUdev_1_0_gir_SCANNERFLAGS = \
 	--pkg-export=gudev-1.0 \
 	--warn-all
 
-gudev_GUdev_1_0_gir_FILES = \
-	gudev.h \
-	gudevtypes.h \
-	gudevenums.h \
-	gudevenumtypes.h \
-	gudevclient.h \
-	gudevdevice.h \
-	gudevenumerator.h \
-	gudevdevice.c \
-	gudevenumerator.c
+GUdev_1_0_gir_FILES = \
+	gudev/gudev.h \
+	gudev/gudevtypes.h \
+	gudev/gudevenums.h \
+	gudev/gudevenumtypes.h \
+	gudev/gudevclient.h \
+	gudev/gudevdevice.h \
+	gudev/gudevenumerator.h \
+	gudev/gudevdevice.c \
+	gudev/gudevenumerator.c
 
 INTROSPECTION_GIRS = \
-	gudev/GUdev-1.0.gir
+	GUdev-1.0.gir
 
 INTROSPECTION_SCANNER_ARGS = \
 	--c-include=gudev.h
 
 gir_DATA = \
-	gudev/GUdev-1.0.gir
+	GUdev-1.0.gir
 
 typelibs_DATA = \
-	gudev/GUdev-1.0.typelib
+	GUdev-1.0.typelib
 
 CLEANFILES += \
 	$(gir_DATA) $(typelibs_DATA)
@@ -482,7 +478,7 @@ keymap_keymap_CPPFLAGS = \
 	$(AM_CPPFLAGS)
 
 keymap_keymap_LDADD = \
-	udev/libudev-core.la
+	libudev-core.la
 
 BUILT_SOURCES = \
 	$(nodist_keymap_keymap_SOURCES)
@@ -495,7 +491,7 @@ dist_udevlibexec_SCRIPTS = \
 	keymap/keyboard-force-release.sh
 
 TESTS = \
-	check-keymaps.sh
+	keymap/check-keymaps.sh
 
 CLEANFILES += \
 	keymap/keys.txt \
@@ -517,8 +513,6 @@ keymap/keys-from-name.gperf: keymap/keys.txt Makefile
 keymap/keys-from-name.h: keymap/keys-from-name.gperf Makefile
 	$(AM_V_GEN)$(GPERF) -L ANSI-C -t --ignore-case -N lookup_key -H hash_key_name -p -C < $< > $@
 
-keymap/keymap.c: keymap/keys-from-name.h
-
 keymap/keys-to-name.h: keymap/keys.txt Makefile
 	$(AM_V_GEN)$(AWK) 'BEGIN{ print "const char* const key_names[KEY_CNT] = { "} { print "[" $$1 "] = \"" $$1 "\"," } END{print "};"}' < $< > $@
 endif #KEYMAP
@@ -531,9 +525,9 @@ define move-legacylib
 endef
 
 lib_LTLIBRARIES += \
-	libudev-legacy/libudev-legacy.la
+	libudev-legacy.la
 
-libudev_legacy_libudev_legacy_la_SOURCES = \
+libudev_legacy_la_SOURCES = \
 	libudev-legacy/libudev.c \
 	libudev-legacy/libudev-list.c \
 	libudev-legacy/libudev-util.c \
@@ -542,7 +536,7 @@ libudev_legacy_libudev_legacy_la_SOURCES = \
 	libudev-legacy/libudev-monitor.c \
 	libudev-legacy/libudev-queue.c
 
-libudev_legacy_libudev_legacy_la_CFLAGS = \
+libudev_legacy_la_CFLAGS = \
 	$(AM_CFLAGS) \
 	-shared
 
@@ -550,7 +544,7 @@ noinst_HEADERS += \
 	libudev-legacy/libudev.h \
 	libudev-legacy/libudev-private.h
 
-libudev_legacy_libudev_legacy_la_LDFLAGS = \
+libudev_legacy_la_LDFLAGS = \
 	$(AM_LDFLAGS) \
 	-avoid-version
 

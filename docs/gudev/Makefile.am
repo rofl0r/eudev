@@ -92,8 +92,8 @@ GTKDOC_CFLAGS = \
 
 GTKDOC_LIBS = \
 	$(GLIB_LIBS) \
-	$(top_builddir)/src/gudev/libgudev-1.0.la \
-	$(top_builddir)/src/udev/libudev-core.la
+	$(top_builddir)/src/libgudev-1.0.la \
+	$(top_builddir)/src/libudev-core.la
 
 # This includes the standard gtk-doc make rules, copied by gtkdocize.
 include $(top_srcdir)/docs/gtk-doc.make
