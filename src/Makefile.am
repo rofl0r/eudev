@@ -498,14 +498,14 @@ TESTS = \
 	check-keymaps.sh
 
 CLEANFILES += \
-	keymaps/keys.txt \
-	keymaps/keys-from-name.gperf \
+	keymap/keys.txt \
+	keymap/keys-from-name.gperf \
 	kyemaps/keyboard-force-release.sh \
 	$(BUILT_SOURCES)
 
 EXTRA_DIST += \
-	keymaps/check-keymaps.sh \
-	keymaps/keyboard-force-release.sh.in
+	keymap/check-keymaps.sh \
+	keymap/keyboard-force-release.sh.in
 
 keymap/keys.txt: Makefile
 	$(AM_V_at)$(MKDIR_P) $(dir $@)
