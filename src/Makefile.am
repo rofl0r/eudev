@@ -375,11 +375,7 @@ gudev/gudevmarshal.c: gudev/gudevmarshal.list
 	$(AM_V_GEN)echo '#include "gudevmarshal.h"' > $@ && \
 	glib-genmarshal $< --prefix=g_udev_marshal --body >> $@
 
-gudev/gudevenumtypes.h: gudev/gudevenumtypes.h.template gudev/gudevenums.h
-	$(AM_V_at)$(MKDIR_P) $(dir $@)
-	$(AM_V_GEN)glib-mkenums --template $^ > $@
-
-gudev/gudevenumtypes.c: gudev/gudevenumtypes.c.template gudev/gudevenums.h gudev/gudevenumtypes.h
+gudev/gudevenumtypes.%: gudev/gudevenumtypes.%.template gudev/gudevenums.h
 	$(AM_V_at)$(MKDIR_P) $(dir $@)
 	$(AM_V_GEN)glib-mkenums --template $^ > $@
 
