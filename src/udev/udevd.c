@@ -71,6 +71,7 @@ static bool reload;
 static int children;
 static int children_max;
 static int exec_delay;
+static bool static_devnode_handling = true;
 static sigset_t sigmask_orig;
 static UDEV_LIST(event_list);
 static UDEV_LIST(worker_list);
@@ -920,7 +921,14 @@ static void kernel_cmdline_options(struct udev *udev)
                         children_max = strtoul(opt + 18, NULL, 0);
                 } else if (startswith(opt, "udev.exec-delay=")) {
                         exec_delay = strtoul(opt + 16, NULL, 0);
+                } else if (startswith(opt, "udev.static-devnodes=")) {
+                        if (strtoul(opt + 21, NULL, 0) > 0) {
+                                static_devnode_handling = true;
+                        } else {
+                                static_devnode_handling = false;
+                        }
                 }
+
 
                 free(s);
         }
@@ -940,6 +948,7 @@ int main(int argc, char *argv[])
                 { "children-max", required_argument, NULL, 'c' },
                 { "exec-delay", required_argument, NULL, 'e' },
                 { "resolve-names", required_argument, NULL, 'N' },
+                { "static-devnodes", required_argument, NULL, 's' },
                 { "help", no_argument, NULL, 'h' },
                 { "version", no_argument, NULL, 'V' },
                 {}
@@ -964,7 +973,7 @@ int main(int argc, char *argv[])
         for (;;) {
                 int option;
 
-                option = getopt_long(argc, argv, "c:de:DtN:hV", options, NULL);
+                option = getopt_long(argc, argv, "c:de:DtN:s:hV", options, NULL);
                 if (option == -1)
                         break;
 
@@ -977,6 +986,17 @@ int main(int argc, char *argv[])
                         break;
                 case 'e':
                         exec_delay = strtoul(optarg, NULL, 0);
+                        break;
+                case 's':
+                        if (streq(optarg, "false")) {
+                                static_devnode_handling = false;
+                        } else {
+                                static_devnode_handling = true;
+                                if (!streq(optarg, "true")) {
+                                        fprintf(stderr,"static-devnodes must be true or false\n");
+                                        log_error("static-devnodes must be true or false\n");
+                                }
+                        }                        
                         break;
                 case 'D':
                         debug = true;
@@ -1003,6 +1023,7 @@ int main(int argc, char *argv[])
                                "  --children-max=<maximum number of workers>\n"
                                "  --exec-delay=<seconds to wait before executing RUN=>\n"
                                "  --resolve-names=early|late|never\n"
+                               "  --static-devnodes=true|false\n"
                                "  --version\n"
                                "  --help\n"
                                "\n");
@@ -1034,7 +1055,8 @@ int main(int argc, char *argv[])
         mkdir("/run/udev", 0755);
 
         dev_setup(NULL);
-        static_dev_create_from_modules(udev);
+        if (static_devnode_handling)
+                static_dev_create_from_modules(udev);
 
         /* before opening new files, make sure std{in,out,err} fds are in a sane state */
         if (daemonize) {

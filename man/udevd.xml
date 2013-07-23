@@ -38,6 +38,7 @@
       <arg><option>--children-max=</option></arg>
       <arg><option>--exec-delay=</option></arg>
       <arg><option>--resolve-names=early|late|never</option></arg>
+      <arg><option>--static-devnodes=true|false</option></arg>
       <arg><option>--version</option></arg>
       <arg><option>--help</option></arg>
     </cmdsynopsis>
@@ -96,6 +97,19 @@
         </listitem>
       </varlistentry>
       <varlistentry>
+        <term><option>--static-devnodes=</option></term>
+        <listitem>
+          <para>Specify whether udevd should create static device nodes on 
+          startup.  When set to <option>true</option> (the default), udevd
+          will create devince nodes -- this is legacy behaviour.  However,
+          with the advent of kmod-14 and above, some systems will use kmod
+          to create the static device nodes, and the nodes that udevd creates
+          will conflict.  Administrators should set this option to
+          <option>false</option> if the system uses "kmod static-nodes" so
+          that udevd will not conflict.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
         <term><option>--version</option></term>
         <listitem>
           <para>Print version number.</para>
@@ -147,6 +161,17 @@
           number of seconds. This option might be useful when
           debugging system crashes during coldplug caused by loading
           non-working kernel modules.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><varname>udev.static-devnodes=</varname></term>
+        <term><varname>rd.udev.static-devnodes=</varname></term>
+        <listitem>
+          <para>Set to <option>0</option> to disable creation of
+          static device nodes when udevd starts, or set to 
+          <option>1</option> or higher to enable (default).  See 
+          command-line option <option>--static-devnodes</option> above 
+          for more information.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
