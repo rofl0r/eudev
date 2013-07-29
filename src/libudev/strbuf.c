@@ -125,6 +125,8 @@ static void bubbleinsert(struct strbuf_node *node,
         node->children_count ++;
 }
 
+typedef  int (*__compar_fn_t)(const void *, const void *);
+
 /* add string, return the index/offset into the buffer */
 ssize_t strbuf_add_string(struct strbuf *str, const char *s, size_t len) {
         uint8_t c;

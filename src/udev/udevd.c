@@ -1217,15 +1217,8 @@ int main(int argc, char *argv[])
                 goto exit;
         }
 
-        if (children_max <= 0) {
-                cpu_set_t cpu_set;
-
+        if (children_max <= 0)
                 children_max = 8;
-
-                if (sched_getaffinity(0, sizeof (cpu_set), &cpu_set) == 0) {
-                        children_max +=  CPU_COUNT(&cpu_set) * 2;
-                }
-        }
         log_debug("set children_max to %u\n", children_max);
 
         rc = udev_rules_apply_static_dev_perms(rules);

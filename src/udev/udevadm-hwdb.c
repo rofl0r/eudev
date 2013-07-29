@@ -123,10 +123,12 @@ static void trie_node_cleanup(struct trie_node *node) {
         free(node);
 }
 
-static int trie_values_cmp(const void *v1, const void *v2, void *arg) {
+
+static __thread void* cmp_data;
+static int trie_values_cmp(const void *v1, const void *v2) {
         const struct trie_value_entry *val1 = v1;
         const struct trie_value_entry *val2 = v2;
-        struct trie *trie = arg;
+        struct trie *trie = cmp_data;
 
         return strcmp(trie->strings->buf + val1->key_off,
                       trie->strings->buf + val2->key_off);
@@ -167,7 +169,8 @@ static int trie_node_add_value(struct trie *trie, struct trie_node *node,
         node->values[node->values_count].key_off = k;
         node->values[node->values_count].value_off = v;
         node->values_count++;
-        qsort_r(node->values, node->values_count, sizeof(struct trie_value_entry), trie_values_cmp, trie);
+        cmp_data = trie ;
+        qsort(node->values, node->values_count, sizeof(struct trie_value_entry), trie_values_cmp);
         return 0;
 }
 

@@ -30,7 +30,6 @@
 #include <getopt.h>
 #include <scsi/scsi.h>
 #include <scsi/sg.h>
-#include <scsi/scsi_ioctl.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <sys/stat.h>

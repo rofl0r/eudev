@@ -90,7 +90,7 @@ static int mkdir_parents_internal(const char *prefix, const char *path, mode_t m
         if (e == path)
                 return 0;
 
-        p = strndupa(path, e - path);
+        p = strndup(path, e - path);
         r = is_dir(p);
         if (r > 0)
                 return 0;
